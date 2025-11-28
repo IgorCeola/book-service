@@ -13,15 +13,15 @@ jobs:
       - name: 1. Checkout do Código
         uses: actions/checkout@v4
       
-      - name: 2. Configurar Python e Instalar Dependências
+      - name: 2. Configurar Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+          
       - name: 3. Instalar Dependências
         run: pip install -r requirements.txt
 
-      - name: 4. Rodar Testes e Cobertura (Métrica: 80%)
+      - name: 4. Rodar Testes e Cobertura
         run: pytest --cov=./ --cov-report=xml --cov-fail-under=80
 
       - name: 5. SonarCloud Scan (Quality Gate)
@@ -35,7 +35,7 @@ jobs:
           args: >
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.qualitygate.wait=true 
-            
+
       - name: 6. Acionar Deploy no Render (PRODUCTION)
         uses: achorein/render-deploy-action@v1
         with:
