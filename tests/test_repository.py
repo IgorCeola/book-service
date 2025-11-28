@@ -1,6 +1,7 @@
 from repository.book_repository import BookRepository
 from domain.book import Book
 from unittest.mock import MagicMock
+from bson.objectid import ObjectId
 
 VALID_ID = "507f1f77bcf86cd799439011"
 
