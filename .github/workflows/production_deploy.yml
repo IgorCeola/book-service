@@ -40,9 +40,6 @@ jobs:
         run: |
           # Usa o comando curl para enviar a requisição POST para o Webhook do Render.
           curl -X POST ${{ secrets.RENDER_DEPLOY_WEBHOOK_PROD }}
-        with:
-          service_id: ${{ secrets.RENDER_BOOK_SERVICE_PROD_ID }} 
-          api_key: ${{ secrets.RENDER_API_KEY }}
           
       - name: 7. Sucesso em Produção
         run: echo "Deploy para Produção concluído com sucesso!"
