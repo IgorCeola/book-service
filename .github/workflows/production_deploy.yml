@@ -25,7 +25,7 @@ jobs:
         run: pytest --cov=./ --cov-report=xml --cov-fail-under=80
 
       - name: 5. SonarCloud Scan (Quality Gate)
-        uses: SonarSource/sonarcloud-github-action@v2.4.0
+        uses: SonarSource/sonarcloud-github-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -37,7 +37,9 @@ jobs:
             -Dsonar.qualitygate.wait=true 
 
       - name: 6. Acionar Deploy no Render (PRODUCTION)
-        uses: achorein/render-deploy-action@v1
+        run: |
+          # Usa o comando curl para enviar a requisição POST para o Webhook do Render.
+          curl -X POST ${{ secrets.RENDER_DEPLOY_WEBHOOK_PROD }}
         with:
           service_id: ${{ secrets.RENDER_BOOK_SERVICE_PROD_ID }} 
           api_key: ${{ secrets.RENDER_API_KEY }}
