@@ -1,47 +1,46 @@
-
-name: CI/CD Book Service - Staging
+name: CD Book Service - Production
 
 on:
   push:
     branches:
-      - staging
+      - main
 
 jobs:
-  build-and-test:
+  deploy:
     runs-on: ubuntu-latest
     
     steps:
       - name: 1. Checkout do Código
         uses: actions/checkout@v4
-
-      - name: 2. Configurar Python
+      
+      - name: 2. Configurar Python e Instalar Dependências
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
+      
       - name: 3. Instalar Dependências
         run: pip install -r requirements.txt
 
       - name: 4. Rodar Testes e Cobertura (Métrica: 80%)
         run: pytest --cov=./ --cov-report=xml --cov-fail-under=80
 
-      - name: 5. SonarCloud Scan (Análise de Qualidade)
+      - name: 5. SonarCloud Scan (Quality Gate)
         uses: SonarSource/sonarcloud-github-action@v2.4.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          projectKey: 'book-service'
+          projectKey: 'book-service' 
           organization: 'igorceola'
           args: >
             -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.qualitygate.wait=true
-
-      - name: 6. Acionar Deploy no Render (Staging)
+            -Dsonar.qualitygate.wait=true 
+            
+      - name: 6. Acionar Deploy no Render (PRODUCTION)
         uses: achorein/render-deploy-action@v1
         with:
-          service_id: ${{ secrets.RENDER_BOOK_SERVICE_STAGING_ID }}
+          service_id: ${{ secrets.RENDER_BOOK_SERVICE_PROD_ID }} 
           api_key: ${{ secrets.RENDER_API_KEY }}
           
-      - name: 7. Sucesso na Homologação
-        run: echo "Deploy para Homologação concluído com sucesso!"
+      - name: 7. Sucesso em Produção
+        run: echo "Deploy para Produção concluído com sucesso!"

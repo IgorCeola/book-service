@@ -6,3 +6,4 @@ pymongo
 pika
 pytest
 pytest-cov
+prometheus-fastapi-instrumentator
