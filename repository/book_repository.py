@@ -3,6 +3,9 @@ from domain.book import Book
 from database import books_collection
 
 class BookRepository:
+    
+    VALID_ID = "507f1f77bcf86cd799439011"
+    
     def listar(self):
         livros = list(books_collection.find())
         for livro in livros:
@@ -10,16 +13,23 @@ class BookRepository:
             del livro["_id"]
         return livros
 
-    def buscar_por_id(self, id: str):
-        try:
-            obj_id = ObjectId(id)
-        except:
-            return None
-        livro = books_collection.find_one({"_id": obj_id})
-        if livro:
-            livro["id"] = str(livro["_id"])
-            del livro["_id"]
-        return livro
+    def test_buscar_por_id():
+        repo = BookRepository()
+        repo_collection = MagicMock()
+        
+        repo_collection.find_one.return_value = {
+            "_id": ObjectId(VALID_ID),
+            "titulo": "A"
+        }
+
+        import repository.book_repository as module
+        module.books_collection = repo_collection
+
+        result = repo.buscar_por_id(VALID_ID)
+        
+        assert result["id"] == VALID_ID 
+
+        repo_collection.find_one.assert_called_once_with({"_id": ObjectId(VALID_ID)})
 
     def adicionar(self, livro: Book):
         data = livro.dict(exclude_unset=True)
