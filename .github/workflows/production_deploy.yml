@@ -32,7 +32,7 @@ jobs:
         with:
           args: >
             -Dsonar.projectKey=IgorCeola_book-service
-            -Dsonar.organization=IgorCeola
+            -Dsonar.organization=igorceola
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.qualitygate.wait=true
 
