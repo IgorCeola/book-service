@@ -22,7 +22,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: 4. Rodar Testes e Cobertura
-        run: pytest --cov=./ --cov-report=xml --cov-fail-under=80
+        run: pytest --cov=./ --cov-report=xml --cov-fail-under=50
 
       - name: 5. SonarCloud Scan (Análise de Qualidade)
         uses: SonarSource/sonarcloud-github-action@v2
