@@ -31,7 +31,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=book-service
+            -Dsonar.projectKey=IgorCeola_book-service
             -Dsonar.organization=IgorCeola
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.qualitygate.wait=true
