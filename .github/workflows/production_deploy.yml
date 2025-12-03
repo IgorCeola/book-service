@@ -24,17 +24,17 @@ jobs:
       - name: 4. Rodar Testes e Cobertura
         run: pytest --cov=./ --cov-report=xml --cov-fail-under=80
 
-      - name: 5. SonarCloud Scan (Quality Gate)
+      - name: 5. SonarCloud Scan (Análise de Qualidade)
         uses: SonarSource/sonarcloud-github-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          projectKey: 'book-service' 
-          organization: 'igorceola'
           args: >
+            -Dsonar.projectKey=book-service
+            -Dsonar.organization=igorceola
             -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.qualitygate.wait=true 
+            -Dsonar.qualitygate.wait=true
 
       - name: 6. Acionar Deploy no Render (PRODUCTION)
         run: |
